@@ -1,5 +1,8 @@
 // const http = require('http');
 const fs = require('fs');
+const path = require('path');
+const admin = require('./routes/adminRoutes');
+const shopRoutes = require('./routes/shopRoutes');
 
 // const requestHandler = (req,res,next) => {
 //     // console.log(req.url , req.method, req.headers);
@@ -38,25 +41,8 @@ const server = express();
 
 server.use(express.urlencoded({extended: false})); // for parsing bodies of post requests
 
-server.get('/showForm' ,(req,res,next) => {
-    console.log("In A Middleware!");
-    // return res.send("<h1 style = 'text-align:center; color: blue'>Welcome To NothingJs!</h1>");
-    return res.send("<html><body><form method = 'POST' action = '/addMessage'><input type = 'text' placeholder = 'Enter Something ... ' name = 'myinput'><input type = 'submit' value = 'Okay!'></form></body></html>");
-
-});
-
-server.post('/addMessage',(req,res,next) => {
-    console.log("Inside Another Middleware!");
-    console.log(req.body.myinput);
-    fs.writeFileSync('messages.txt' , req.body.myinput);
-    res.send("<h2>Message Saved!</h2>");
-    return res.end();
-});
-
-server.use((req,res,next) => {
-    return res.send("<h1 style = 'text-align:center; color: blue'>Welcome To ExpressJs!</h1>");
-})
-
+server.use(admin.router);
+server.use(shopRoutes);
 
 
 server.listen(3000);
