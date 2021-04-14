@@ -38,7 +38,7 @@ const server = express();
 
 server.use(express.urlencoded({extended: false})); // for parsing bodies of post requests
 
-server.get('/nothing' ,(req,res,next) => {
+server.get('/showForm' ,(req,res,next) => {
     console.log("In A Middleware!");
     // return res.send("<h1 style = 'text-align:center; color: blue'>Welcome To NothingJs!</h1>");
     return res.send("<html><body><form method = 'POST' action = '/addMessage'><input type = 'text' placeholder = 'Enter Something ... ' name = 'myinput'><input type = 'submit' value = 'Okay!'></form></body></html>");
