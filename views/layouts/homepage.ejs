@@ -1,0 +1,27 @@
+<%- include('../includes/header')  %>
+<%- include('../includes/navigation') %>        
+        <div class="container">
+            <div class="text-center">
+                <h1>Welcome To E-Shop!</h1>
+            </div>
+            <div class="text-center">
+            <% if(products.length > 0) { %>
+                <% for(let product of products) { %>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><%= product.prodName %></h2>
+                        </div>
+                        <div class="card-body">
+                            <img src="/images/book.jpg">
+                        </div>
+                        <div class="card-footer">
+                            <pre>Price: <%= product.prodPrice %></pre>
+                        </div>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <pre>No Products Yet!</pre>
+            <% } %>
+            </div>
+        </div>
+<%- include('../includes/footer')  %>

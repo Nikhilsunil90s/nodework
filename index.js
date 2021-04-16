@@ -37,11 +37,16 @@ const express = require('express');
 
 const server = express();
 
+// store static data in server variable
+server.use(express.static('public'));
+server.set("view engine" , "ejs");
+server.set("views" , "views");
+
 //middlewares
 
 server.use(express.urlencoded({extended: false})); // for parsing bodies of post requests
 
-server.use(admin.router);
+server.use('/admin',admin.router);
 server.use(shopRoutes);
 
 
