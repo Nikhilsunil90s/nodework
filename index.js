@@ -1,7 +1,6 @@
 // const http = require('http');
-const fs = require('fs');
 const path = require('path');
-const admin = require('./routes/adminRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const shopRoutes = require('./routes/shopRoutes');
 
 // const requestHandler = (req,res,next) => {
@@ -46,7 +45,7 @@ server.set("views" , "views");
 
 server.use(express.urlencoded({extended: false})); // for parsing bodies of post requests
 
-server.use('/admin',admin.router);
+server.use('/admin',adminRoutes);
 server.use(shopRoutes);
 
 
