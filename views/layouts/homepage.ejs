@@ -1,8 +1,40 @@
 <%- include('../includes/header')  %>
 <%- include('../includes/navigation') %>        
+<% if(isAdmin) { %>
+    <div class="container">
+        <div class="text-center">
+            <h1>Welcome To E-Shop! Admin!</h1>
+        </div>
+        <div class="text-center">
+        <% if(products.length > 0) { %>
+            <% for(let product of products) { %>
+                <div class="card">
+                    <div class="card-header">
+                        <h2><%= product.prodName %></h2>
+                    </div>
+                    <div class="card-body">
+                        <img src="/images/book.jpg">
+                    </div>
+                    <div class="card-footer">
+                        <pre>Price: <%= product.prodPrice %></pre>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a href="/product/edit/<%= product.id %>" class="btn btn-primary">Edit</a>
+                    <a href="/product/delete/<%= product.id %>" class="btn btn-primary">Delete</a>
+
+                </div>
+                <hr>
+            <% } %>
+        <% } else { %>
+            <pre>No Products Yet!</pre>
+        <% } %>
+        </div>
+    </div>
+<% } else { %>
         <div class="container">
             <div class="text-center">
-                <h1>Welcome To E-Shop!</h1>
+                <h1>Welcome To E-Shop! User!</h1>
             </div>
             <div class="text-center">
             <% if(products.length > 0) { %>
@@ -18,10 +50,15 @@
                             <pre>Price: <%= product.prodPrice %></pre>
                         </div>
                     </div>
+                    <div class="text-center">
+                        <a href="/product/<%= product.id %>" class="btn btn-primary">View Details!</a>
+                    </div>
+                    <hr>
                 <% } %>
             <% } else { %>
                 <pre>No Products Yet!</pre>
             <% } %>
             </div>
         </div>
+<% } %>
 <%- include('../includes/footer')  %>

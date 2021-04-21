@@ -2,6 +2,7 @@
 const path = require('path');
 const adminRoutes = require('./routes/adminRoutes');
 const shopRoutes = require('./routes/shopRoutes');
+const database = require('./utils/database');
 
 // const requestHandler = (req,res,next) => {
 //     // console.log(req.url , req.method, req.headers);
@@ -48,5 +49,9 @@ server.use(express.urlencoded({extended: false})); // for parsing bodies of post
 server.use('/admin',adminRoutes);
 server.use(shopRoutes);
 
-
-server.listen(3000);
+database.sync()
+        .then((result) => {
+            console.log(result);
+            server.listen(3000);
+        })
+        .catch(err => console.log(err));
