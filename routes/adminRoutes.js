@@ -6,6 +6,8 @@ const productController = require('../controllers/productController');
 
 router.get("/showProducts" , productController.getHomePage);
 
+router.get("/product/edit/:prodId" , productController.getEditProductPage);
+
 router.get("/addProduct" , productController.getAddProductPage);
 
 router.post("/addProduct" , productController.postAddProductPage);

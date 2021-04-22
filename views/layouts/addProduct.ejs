@@ -7,9 +7,9 @@
             </div>
             <div class="text-center">
                 <form method = 'POST' action = '/admin/addProduct'>
-                    <input type = 'text' class="form-control" placeholder = 'Enter Product Name ... ' name = 'prodName'>
+                    <input type = 'text' class="form-control" placeholder = 'Enter Product Name ... ' name = 'prodName' value="<%= prodName %>">
                     <br>
-                    <input type = 'text' class="form-control" placeholder = 'Enter Product Price ... ' name = 'prodPrice'>
+                    <input type = 'text' class="form-control" placeholder = 'Enter Product Price ... ' name = 'prodPrice' value="<%= prodPrice %>">
                     <br>
                     <input type = 'submit' class="btn btn-success" value = 'Okay!'>
                 </form>

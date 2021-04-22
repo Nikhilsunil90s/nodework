@@ -10,17 +10,21 @@ exports.getHomePage = (req,res,next) => {
     Product.findAll({})
            .then(results => {
                console.log(results);
+               return res.render("layouts/homepage" , {
+                     products: results,
+                     isAdmin: isAdmin,
+            });
            })
            .catch(err => console.log(err));
-    return res.render("layouts/homepage" , {
-        products: [],
-        isAdmin: isAdmin,
-    });
+   
 }
 
 exports.getAddProductPage = (req,res,next) => {
     // return res.sendFile(path.join(__dirname , '../' , 'views' , 'addProduct.html'));
-    return res.render("layouts/addProduct");
+    return res.render("layouts/addProduct" , {
+        prodName: "",
+        prodPrice:""
+    });
 }
 
 exports.postAddProductPage = (req,res,next) => {
@@ -37,4 +41,28 @@ exports.postAddProductPage = (req,res,next) => {
 
 exports.getDetailsPage = (req,res,next) => {
     console.log(req.params.prodId);
+    Product.findByPk(req.params.prodId)
+            .then(result => {
+                console.log(result);
+                return res.render('layouts/detailsPage' , {
+                    product: result,
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+}
+
+exports.getEditProductPage = (req,res,next) => {
+    toEdit = req.params.prodId;
+    Product.findByPk(toEdit)
+           .then(result => {
+                return res.render('layouts/addProduct' , {
+                    prodName: result.prodName,
+                    prodPrice: result.prodPrice
+                })
+           })
+           .catch(err => {
+               console.log(err);
+           })
 }
