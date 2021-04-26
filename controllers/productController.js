@@ -23,7 +23,8 @@ exports.getAddProductPage = (req,res,next) => {
     // return res.sendFile(path.join(__dirname , '../' , 'views' , 'addProduct.html'));
     return res.render("layouts/addProduct" , {
         prodName: "",
-        prodPrice:""
+        prodPrice:"",
+        isEdit: false,
     });
 }
 
@@ -35,34 +36,64 @@ exports.postAddProductPage = (req,res,next) => {
         prodName: req.body.prodName,
         prodPrice: req.body.prodPrice
     })
+    .then(result => {
+        return res.redirect('/'); // url
+    })
+    .catch(err => console.log(err));
     // return res.sendFile(path.join(__dirname , '../' , 'views' , 'home.html'));
-    return res.redirect('/'); // url
 }
 
 exports.getDetailsPage = (req,res,next) => {
-    console.log(req.params.prodId);
-    Product.findByPk(req.params.prodId)
-            .then(result => {
-                console.log(result);
+    const prodid = req.params.prodId;
+    Product.findByPk(prodid)
+            .then(results => {
                 return res.render('layouts/detailsPage' , {
-                    product: result,
-                });
+                    product: results
+                })
             })
-            .catch(err => {
-                console.log(err);
-            })
+            .catch(err => console.log(err))
 }
 
 exports.getEditProductPage = (req,res,next) => {
-    toEdit = req.params.prodId;
-    Product.findByPk(toEdit)
-           .then(result => {
-                return res.render('layouts/addProduct' , {
-                    prodName: result.prodName,
-                    prodPrice: result.prodPrice
+   toEdit = req.params.prodId;
+   Product.findByPk(toEdit)
+          .then(product => {
+            return res.render('layouts/addProduct' , {
+                prodPrice: product.prodPrice,
+                prodName: product.prodName,
+                prodId: toEdit,
+                isEdit: true
+            })
+          })
+          .catch(err => console.log(err))
+}
+
+exports.postEditProductPage = (req,res,next) => {
+    const prodid = req.params.prodId;
+    Product.findByPk(prodid)
+            .then(product => {
+                return product.update({
+                    id: prodid,
+                    prodName: req.body.prodName,
+                    prodPrice: req.body.prodPrice,
                 })
+            })
+            .then(result => {
+                console.log("Product Edited!")
+                return res.redirect("/admin/showProducts");
+            })
+            .catch(err => console.log(err))
+}
+
+exports.deleteProductPage = (req,res,next) => {
+    const prodid = req.params.prodId;
+    Product.findByPk(prodid)
+           .then((product) => {
+               return product.destroy()
            })
-           .catch(err => {
-               console.log(err);
+           .then(result => {
+               console.log("Product Deleted!");
+               return res.redirect("/")
            })
+           .catch(err => console.log(err))
 }

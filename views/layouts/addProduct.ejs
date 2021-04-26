@@ -1,6 +1,6 @@
 <%- include('../includes/header')  %>
 <%- include('../includes/navigation') %>        
-
+<% if (!isEdit) { %>
         <div class="container">
             <div class="text-center">
                 <h1>Welcome To Add Products To E-Shop!</h1>
@@ -15,4 +15,20 @@
                 </form>
             </div>
         </div>
+<% } else { %>
+    <div class="container">
+        <div class="text-center">
+            <h1>Welcome To Edit Products To E-Shop!</h1>
+        </div>
+        <div class="text-center">
+            <form method = 'POST' action = '/admin/product/edit/<%= prodId %>'>
+                <input type = 'text' class="form-control" placeholder = 'Enter Product Name ... ' name = 'prodName' value="<%= prodName %>">
+                <br>
+                <input type = 'text' class="form-control" placeholder = 'Enter Product Price ... ' name = 'prodPrice' value="<%= prodPrice %>">
+                <br>
+                <input type = 'submit' class="btn btn-success" value = 'Edit Product!'>
+            </form>
+        </div>
+    </div>
+<% } %>
  <%- include('../includes/footer')  %>

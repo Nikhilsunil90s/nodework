@@ -49,7 +49,7 @@ server.use(express.urlencoded({extended: false})); // for parsing bodies of post
 server.use('/admin',adminRoutes);
 server.use(shopRoutes);
 
-database.sync()
+database.sync({ force: true })
         .then((result) => {
             console.log(result);
             server.listen(3000);
