@@ -34,7 +34,8 @@ exports.postAddProductPage = (req,res,next) => {
     Product.create({
         id: parseInt(Math.random() * 100),
         prodName: req.body.prodName,
-        prodPrice: req.body.prodPrice
+        prodPrice: req.body.prodPrice,
+        userId: req.user.id,
     })
     .then(result => {
         return res.redirect('/'); // url
