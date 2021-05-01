@@ -40,28 +40,27 @@ const server = express();
 const User = require('./models/user');
 const Product = require('./models/product');
 
+Product.belongsTo(User , {constraint: true, ondelete: 'CASCADE'});
+User.hasMany(Product);
 
+
+server.use(express.urlencoded({extended: true}));
+server.use(express.json())
 // store static data in server variable
 server.use(express.static('public'));
 server.set("view engine" , "ejs");
 server.set("views" , "views");
 
 //middlewares
-Product.belongsTo(User , {constraint: true, ondelete: 'CASCADE'})
-
-User.hasMany(Product)
-
-server.use(express.urlencoded({extended: false})); // for parsing bodies of post requests
-
 server.use((req,res,next) => {
     User.findByPk(1)
-    .then(user => {
-        console.log(user);
-        req.user = user;
-        next();
-    })
-    .catch(err => console.log(err))
+        .then(user => {
+            req.user = user;
+            next();
+        })  
+        .catch(err => console.log(err));
 })
+
 
 server.use('/admin',adminRoutes);
 server.use(shopRoutes);
@@ -69,20 +68,38 @@ server.use(shopRoutes);
 
 
 
+// database.sync()
+//         .then((result) => {
+//             // console.log(result);
+//             return User.findByPk(1)
+//             // server.listen(3000);
+//         })
+//         .then(user => {
+//             if(!user) {
+//                 return User.create({ name: 'TestName' , email: 'TestEmail@email.com' })
+//             }
+//             return user;
+//         })
+//         .then(mainuser => {
+//             console.log(mainuser);
+//             server.listen(3000);
+//         })
+//         .catch(err => console.log(err));
+
 database.sync()
-        .then((result) => {
-            // console.log(result);
-            return User.findByPk(1)
+        .then(result => {
             // server.listen(3000);
-        })
-        .then(user => {
-            if(!user) {
-                return User.create({ name: 'TestName' , email: 'TestEmail@email.com' })
-            }
-            return user;
-        })
-        .then(mainuser => {
-            console.log(mainuser);
-            server.listen(3000);
+            User.findByPk(1)
+                .then(user => {
+                    if(!user){
+                        return User.create({ name: 'TextName' , email: 'Text@email.com' });
+                    }
+                    return user;
+                })
+                .then(mainUser => {
+                    server.listen(3000);
+                })
+                .catch()
         })
         .catch(err => console.log(err));
+

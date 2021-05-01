@@ -4,6 +4,7 @@ const Product = require('../models/product');
 
 exports.getHomePage = (req,res,next) => {
     // return res.sendFile(path.join(__dirname , '../' , 'views' , 'homepage.html'));
+    console.log("In Home Page : ",req.user);
     const isAdmin = (req.url === '/showProducts') ? true : false;
     // const Products = Product.fetchProducts();
     // console.log(Products);
@@ -21,6 +22,8 @@ exports.getHomePage = (req,res,next) => {
 
 exports.getAddProductPage = (req,res,next) => {
     // return res.sendFile(path.join(__dirname , '../' , 'views' , 'addProduct.html'));
+    console.log("In Add Product Page : ",req.user);
+
     return res.render("layouts/addProduct" , {
         prodName: "",
         prodPrice:"",
@@ -31,11 +34,16 @@ exports.getAddProductPage = (req,res,next) => {
 exports.postAddProductPage = (req,res,next) => {
     // const product = new Product(req.body.prodName , req.body.prodPrice);
     // product.save();
-    Product.create({
+    // Product.create({
+    //     id: parseInt(Math.random() * 100),
+    //     prodName: req.body.prodName,
+    //     prodPrice: req.body.prodPrice,
+    //     userId: req.user.id,
+    // })
+    req.user.createProduct({
         id: parseInt(Math.random() * 100),
         prodName: req.body.prodName,
         prodPrice: req.body.prodPrice,
-        userId: req.user.id,
     })
     .then(result => {
         return res.redirect('/'); // url
@@ -73,7 +81,7 @@ exports.postEditProductPage = (req,res,next) => {
     const prodid = req.params.prodId;
     Product.findByPk(prodid)
             .then(product => {
-                return product.update({
+                product.update({
                     id: prodid,
                     prodName: req.body.prodName,
                     prodPrice: req.body.prodPrice,
